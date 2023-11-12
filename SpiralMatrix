@@ -1,0 +1,98 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+ifstream fin("spiralmatrix.in");
+ofstream fout("spiralmatrix.out");
+unsigned long long n, nr, st=1, dr, mij, primul, ultimul, k, l, c, elemente, stanga_sus, stanga_jos, dreapta_sus, dreapta_jos;
+unsigned long long formula(unsigned long long poz){
+    return 4*n*(poz-1)-4*(poz-1)*(poz-1)+1;
+}
+int main()
+{
+    fin>>n;
+        st=1;
+        ultimul=n*n/2;
+        dr=n/2;
+ 
+        while(st<=dr){
+         mij=(st+dr)/2;
+         if(st==mij){
+            break;//am aflat patratul
+         }
+         if(formula(mij)>ultimul){
+            dr=mij-1;
+         }
+         else{
+            st=mij;
+         }
+        }
+ 
+        if(ultimul>formula(dr)){
+        st=dr;
+        }
+        elemente=n-2*(st-1);
+ 
+    stanga_sus=formula(st);
+    dreapta_sus=formula(st)+elemente-1;
+    dreapta_jos=dreapta_sus+elemente-1;
+    stanga_jos=dreapta_jos+elemente-1;
+    if(ultimul<=dreapta_sus){
+    fout<<st<<" "<<st+ultimul-stanga_sus<<'\n';
+}
+    if(ultimul>dreapta_sus && ultimul<=dreapta_jos){
+        fout<<st+ultimul-dreapta_sus<<" "<<st+elemente-1<<'\n';;
+    }
+    if(ultimul>dreapta_jos && ultimul<=stanga_jos){
+        fout<<st+elemente-1<<" "<<st+stanga_jos-ultimul<<'\n';;
+    }
+    if(ultimul>stanga_jos){
+        fout<<(st+elemente-1)-(ultimul-stanga_jos)<<" "<<st<<'\n';;
+    }
+ 
+//////////
+ 
+st=1;
+        primul=n*n/2+1;
+        if(n%2==1){
+            primul++;
+        }
+        dr=n/2;
+ 
+        while(st<=dr){
+         mij=(st+dr)/2;
+         if(st==mij){
+            break;//am aflat patratul
+         }
+         if(formula(mij)>primul){
+            dr=mij-1;
+         }
+         else{
+            st=mij;
+         }
+        }
+ 
+        if(primul>formula(dr)){
+        st=dr;
+        }
+        elemente=n-2*(st-1);
+ 
+    stanga_sus=formula(st);
+    dreapta_sus=formula(st)+elemente-1;
+    dreapta_jos=dreapta_sus+elemente-1;
+    stanga_jos=dreapta_jos+elemente-1;
+    if(primul<=dreapta_sus){
+    fout<<st<<" "<<st+primul-stanga_sus;
+}
+    if(primul>dreapta_sus && primul<=dreapta_jos){
+        fout<<st+primul-dreapta_sus<<" "<<st+elemente-1;
+    }
+    if(primul>dreapta_jos && primul<stanga_jos){
+        fout<<st+elemente-1<<" "<<st+stanga_jos-primul;
+    }
+    if(primul>=stanga_jos){
+        fout<<(st+elemente-1)-(primul-stanga_jos)<<" "<<st;
+    }
+ 
+ 
+    return 0;
+}
